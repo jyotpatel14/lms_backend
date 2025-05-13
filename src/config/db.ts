@@ -1,18 +1,16 @@
-import { Pool, PoolOptions } from "mysql2/promise";
-import { createPool } from "mysql2/promise"; // Note: Import from promise version
+import { createPool } from "mysql2/promise";
 
-// Explicit type for pool configuration
-const poolConfig: PoolOptions = {
+const pool = createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-};
+});
 
-// Create typed pool instance
-const pool: Pool = createPool(poolConfig);
+pool
+  .getConnection()
+  .then(() => console.log("Database connected successfully"))
+  .catch((err) => console.error("Database connection failed:", err));
 
 export default pool;

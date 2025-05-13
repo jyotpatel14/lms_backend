@@ -1,17 +1,15 @@
-import app from ".";
-import pool from "./config/db";
+import express from "express";
+import dotenv from "dotenv";
 
-const PORT = process.env.PORT || 3000;
+dotenv.config();
 
-pool
-  .getConnection()
-  .then(() => {
-    console.log("Connected to MySQL database");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("Database connection failed:", err);
-    process.exit(1);
-  });
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("LMS Backend Running");
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
