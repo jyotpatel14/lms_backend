@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("LMS Backend API is running");
+  res.send("Message Update");
 });
 
 app.listen(PORT, () => {
