@@ -31,19 +31,19 @@ export const getUserById: AsyncRequestHandler<User> = async (req, res) => {
     const { id } = req.params;
 
     // Basic UUID format validation
-    if (
-      !id ||
-      !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/.test(
-        id
-      )
-    ) {
-      res.status(400).json({
-        success: false,
-        code: 400,
-        message: "Invalid UUID format",
-      });
-      return;
-    }
+    // if (
+    //   !id ||
+    //   !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{4}-[89abAB][0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+    //     id
+    //   )
+    // ) {
+    //   res.status(400).json({
+    //     success: false,
+    //     code: 400,
+    //     message: "Invalid UUID format",
+    //   });
+    //   return;
+    // }
 
     const user = await UserModel.getById(id);
     if (!user) {
@@ -74,18 +74,22 @@ export const createUser: AsyncRequestHandler<{ id: string }> = async (
   res
 ) => {
   try {
-    const { name, email, phone_number } = req.body;
+    const { name, email, phone } = req.body;
 
-    if (!name || !email || !phone_number) {
+    if (!name || !email || !phone) {
       res.status(400).json({
         success: false,
         code: 400,
-        message: "Missing required fields: name, email, phone_number",
+        message: "Missing required fields: name, email, phone",
       });
       return;
     }
 
-    const newUserId = await UserModel.create({ name, email, phone_number });
+    const newUserId = await UserModel.create({
+      name,
+      email,
+      phone,
+    });
     res.status(201).json({
       success: true,
       code: 201,
@@ -93,6 +97,7 @@ export const createUser: AsyncRequestHandler<{ id: string }> = async (
       message: "User created successfully",
     });
   } catch (error: any) {
+    console.error("Create user error:", error);
     if (error.code === "ER_DUP_ENTRY") {
       res.status(409).json({
         success: false,
@@ -113,19 +118,19 @@ export const updateUser: AsyncRequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (
-      !id ||
-      !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/.test(
-        id
-      )
-    ) {
-      res.status(400).json({
-        success: false,
-        code: 400,
-        message: "Invalid UUID format",
-      });
-      return;
-    }
+    // if (
+    //   !id ||
+    //   !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{4}-[89abAB][0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+    //     id
+    //   )
+    // ) {
+    //   res.status(400).json({
+    //     success: false,
+    //     code: 400,
+    //     message: "Invalid UUID format",
+    //   });
+    //   return;
+    // }
 
     const updateData = req.body;
     const updated = await UserModel.update(id, updateData);
@@ -165,19 +170,19 @@ export const deleteUser: AsyncRequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (
-      !id ||
-      !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/.test(
-        id
-      )
-    ) {
-      res.status(400).json({
-        success: false,
-        code: 400,
-        message: "Invalid UUID format",
-      });
-      return;
-    }
+    // if (
+    //   !id ||
+    //   !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{4}-[89abAB][0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+    //     id
+    //   )
+    // ) {
+    //   res.status(400).json({
+    //     success: false,
+    //     code: 400,
+    //     message: "Invalid UUID format",
+    //   });
+    //   return;
+    // }
 
     const deleted = await UserModel.delete(id);
     if (!deleted) {

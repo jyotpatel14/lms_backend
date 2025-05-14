@@ -6,15 +6,15 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  phone_number: string;
+  phone: string;
 }
 
 export class UserModel {
   static async create(user: Omit<User, "id">): Promise<string> {
     const id = uuidv4();
     await pool.query(
-      "INSERT INTO users (id, name, email, phone_number) VALUES (?, ?, ?, ?)",
-      [id, user.name, user.email, user.phone_number]
+      "INSERT INTO users (id, name, email, phone) VALUES (?, ?, ?, ?)",
+      [id, user.name, user.email, user.phone]
     );
     return id;
   }

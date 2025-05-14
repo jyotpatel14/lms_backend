@@ -1,4 +1,10 @@
+//db.ts
+
 import { createPool } from "mysql2/promise";
+
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const pool = createPool({
   host: process.env.DB_HOST,

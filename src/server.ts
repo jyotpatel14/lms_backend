@@ -1,9 +1,11 @@
+//server.ts
+
 import express from "express";
-import dotenv from "dotenv";
+import "./config/db";
+// import "./index";
 
-dotenv.config();
+import app from "./app";
 
-const app = express();
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
